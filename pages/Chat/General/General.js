@@ -32,7 +32,7 @@ const General = ({navigation}) => {
   checkCurrentUser_a_Member = getUserId()
 
   const callback = (res) => {
-    // console.log(res)
+    console.log(res)
     setCommitee(res.data)
   }
 

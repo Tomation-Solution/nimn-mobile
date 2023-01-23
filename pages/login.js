@@ -68,7 +68,10 @@ const Login = ({navigation, route}) => {
   return (
     <SafeAreaView >
       {/* <ModalTemplate body={<OwingWidget/>} /> */}
-      <Image style={tw`mx-auto my-8`} source={require('../images/Logo/ANNILogo.png')}/>
+      <Image  style={tw`mt-auto mx-auto h-2/6`}
+            resizeMode='contain'
+            resizeMethod='scale'
+            source={require('../images/Logo/NIMNIcon.png')}/>
       <View style={tw`mx-10`}>
          <Text style={tw`text-base font-bold`}>{route.params ? route.params.state  + ' Chapter ':''}Login</Text>
           <Text>Enter login details.</Text>

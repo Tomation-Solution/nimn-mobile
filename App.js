@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect, useRef } from 'react';
-import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
+// import * as Device from 'expo-device';
+// import * as Notifications from 'expo-notifications';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -57,6 +57,7 @@ import EditProfile from './pages/Profile/EditProfile';
 import SplashScreen from './pages/splashScreen';
 import Chapters from './pages/onboarding/Chapters';
 import About from './pages/about'
+import Meetings from './pages/Meeting';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator();
@@ -116,57 +117,57 @@ const TabScreen =()=>{
     </Tab.Navigator>)
 }
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: true,
-  }),
-});
+// Notifications.setNotificationHandler({
+//   handleNotification: async () => ({
+//     shouldShowAlert: true,
+//     shouldPlaySound: false,
+//     shouldSetBadge: true,
+//   }),
+// });
 
-async function registerForPushNotificationsAsync() {
-  let token;
-  if (Device.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log('token',token);
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
+// async function registerForPushNotificationsAsync() {
+//   let token;
+//   if (Device.isDevice) {
+//     const { status: existingStatus } = await Notifications.getPermissionsAsync();
+//     let finalStatus = existingStatus;
+//     if (existingStatus !== 'granted') {
+//       const { status } = await Notifications.requestPermissionsAsync();
+//       finalStatus = status;
+//     }
+//     if (finalStatus !== 'granted') {
+//       alert('Failed to get push token for push notification!');
+//       return;
+//     }
+//     token = (await Notifications.getExpoPushTokenAsync()).data;
+//     console.log('token',token);
+//   } else {
+//     alert('Must use physical device for Push Notifications');
+//   }
 
-  if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
-  }
+//   if (Platform.OS === 'android') {
+//     Notifications.setNotificationChannelAsync('default', {
+//       name: 'default',
+//       importance: Notifications.AndroidImportance.MAX,
+//       vibrationPattern: [0, 250, 250, 250],
+//       lightColor: '#FF231F7C',
+//     });
+//   }
 
-  return token;
-}
+//   return token;
+// }
 
 
 export default function App() {
 
   // const [expoPushToken, setExpoPushToken] = useState('');
-  const [notifications, setNotifications] = useState({});
+  // const [notifications, setNotifications] = useState({});
   // const notificationListener = useRef();
   // const responseListener = useRef();
 
   useEffect(() => {
-    registerForPushNotificationsAsync();
-    Notifications.addNotificationReceivedListener(handleNotification)
-    Notifications.addNotificationResponseReceivedListener(handleNotificationResponse);
+    // registerForPushNotificationsAsync();
+    // Notifications.addNotificationReceivedListener(handleNotification)
+    // Notifications.addNotificationResponseReceivedListener(handleNotificationResponse);
 
     // return () => {
     //   Notifications.removeNotificationSubscription(notificationListener.current);
@@ -174,18 +175,19 @@ export default function App() {
     // };
   }, []);
 
-  const handleNotification = (notification) => {
-    setNotifications({notification: notification});
-    console.log('notifi', notification);
-  }
+  // const handleNotification = (notification) => {
+  //   setNotifications({notification: notification});
+  //   console.log('notifi', notification);
+  // }
 
-  const handleNotificationResponse = (response) => {
-    console.log('notiResponse',response);
-  }
+  // const handleNotificationResponse = (response) => {
+  //   console.log('notiResponse',response);
+  // }
 
 
   return (
     <NavigationContainer>
+      
       <Stack.Navigator screenOptions={{headerShown:false}} >
         <Stack.Screen name='splashScreen' component={SplashScreen}/>
         {/* <Stack.Screen name="home" component={OnboardingPage} />   */}
@@ -218,6 +220,7 @@ export default function App() {
         <Stack.Screen name='editProfile' component={EditProfile}/>
         <Stack.Screen name='verification' component={Chapters}/>
         <Stack.Screen name='about' component={About}/>
+        <Stack.Screen name='meetings' component={Meetings}/>
 
         <Stack.Screen name='dashboard'>
         {()=>(
@@ -227,7 +230,6 @@ export default function App() {
               options={{drawerLabel:'',  drawerIcon: ({focused, size}) => (
                 <View style={tw`border-b  flex-row justify-around border-gray-400 py-4 w-full`}>
                   
-                  <Image style={tw`h-20 w-20 rounded-full `} source={require('./images/onboarding/phone.png')}/>
                   <View style={tw`my-auto`}>
                     <Pressable>
                       <Text style={tw`py-1`}>Member Platform</Text>
@@ -307,12 +309,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

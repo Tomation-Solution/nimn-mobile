@@ -26,7 +26,7 @@ const Register = ({ navigation, route }) => {
   // console.log(route.params)
   const newMember = route.params === undefined ? null : route.params.user;
 
-  const [signUpData, setSignUpData] = useState({rel8Email: newMember === null ? '' : newMember.email});
+  const [signUpData, setSignUpData] = useState({rel8Email: newMember === null ? '' : newMember.Email});
   const [keyboardStatus, setKeyboardStatus] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -58,7 +58,8 @@ const Register = ({ navigation, route }) => {
   };
 
   const errCallback = (res) => {
-    alert("Email does not exist or email already used.");
+    alert(res.data.message.error);
+    // console.log('err',res)
     setLoading(false);
   };
 
@@ -95,8 +96,10 @@ const Register = ({ navigation, route }) => {
     >
       <Animated.View style={scrollUp}>
         <Image
-          style={tw`mx-auto my-8`}
-          source={require("../images/Logo/ANNILogo.png")}
+          style={tw`mx-auto mb-8 mt-14 w-2/4 h-1/6`}
+          source={require("../images/Logo/NIMNLogo.png")}
+          resizeMethod="scale"
+          resizeMode="contain"
         />
         <View style={tw`mx-10`}>
           <Text style={tw`text-base font-bold`}>Register</Text>
@@ -135,7 +138,7 @@ const Register = ({ navigation, route }) => {
               <Text>Email Address</Text>
               <TextInput
                 style={tw`py-1.5`}
-                defaultValue={newMember !== null ? newMember["email"] : ''}
+                defaultValue={newMember !== null ? newMember["Email"] : ''}
                 placeholder="Email Address"
                 onChangeText={(text) =>
                   setSignUpData({ ...signUpData, rel8Email: text })

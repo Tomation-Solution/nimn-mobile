@@ -5,7 +5,7 @@ import localStorage from 'react-native-sync-localstorage'
 
 
 
-const URL = 'https://aani-backend-production.up.railway.app'
+const URL = 'https://rel8-backend-production.up.railway.app/'
 
 const instance = axios.create({
   baseURL: URL,

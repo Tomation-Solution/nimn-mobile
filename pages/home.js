@@ -20,16 +20,19 @@ import { GetGallery, GetNews, GetPublications, LikeDisLikeNews, GetProfile, Mult
 import localStorage from "react-native-sync-localstorage";
 import { RequestCall } from '../components/Modal/RequestCall'
 import api from '../connection/api'
+import { color_asset } from '../components/utilitiyFunctions'
 
 const Home = ({navigation, route}) => {
 
-  const [news, setNews] = useState(null)
+  const [news, setNews] = useState([])
   const [publications,setPublications] = useState([]);
   const [gallery,setGallery] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [name,setName] = useState({})
   const [open,setOpen] = useState(false)
   const [load,setLoad] = useState(undefined)
+  const [newsTotalLenght, setNewsLenght] = useState(0)
+  const [publicationsTotalLenght,setPublicationsLenght] = useState(0)
 
   const offsetHorizontal = useSharedValue(0);
   let is_load = route.params === undefined ? false : route.params.is_load;
@@ -47,7 +50,6 @@ const Home = ({navigation, route}) => {
   }
 
   const mCallback = (res) => {
-    console.log('multiple',res)
     setOpen(false)
   }
 
@@ -71,8 +73,9 @@ const Home = ({navigation, route}) => {
   },[])
 
   const profileCall =(res) => {
+    // console.log('PROFILE',res)
     let index = res.more_info.length > 0 ? res.more_info.find(i => i.name === "Name") : null
-    let user_email = res.more_info.find(i => i.name === 'email')['value']
+    let user_email = res.more_info.find(i => i.name === 'Email')['value']
     setName(index)
     localStorage.setItem('user_email', user_email)
     localStorage.setItem('currentUser', res)
@@ -97,11 +100,22 @@ const Home = ({navigation, route}) => {
   }
 
   const callback=(res)=>{
-    setNews(res.data)
+    if(res.data.length > 2){
+      setNews(res.data.slice(2))
+    }else{
+      setNews(res.data)
+    }
+    setNewsLenght(res.data.length)
   }
   const pCallback= (res) => {
-    setPublications(res.data)
+    if(res.data.length > 2){
+      setPublications(res.data.slice(2))
+    }else {
+      setPublications(res.data)
+    }
+    setPublicationsLenght(res.data.length)
   }
+
 
   const scrollHorizontal = useAnimatedStyle(() => {
     return {
@@ -135,22 +149,26 @@ const Home = ({navigation, route}) => {
           <Text style={tw`text-base font-bold my-2 mt-6`}> Feeds </Text>
           <View style={tw`flex-row justify-between px-5`}>
             <Pressable onPress={()=>navigation.navigate('events')}>
-              <MaterialIcon name='event-available' style={tw`text-center pb-2`} color='#C4C4C4' size={35}/>
+              <MaterialIcon name='event-available' style={tw`text-center pb-2`} color={color_asset.tertiary.background} size={35}/>
               <Text style={tw`text-xs`}>Events</Text>
             </Pressable>
+            <Pressable onPress={()=>navigation.navigate('meetings')}>
+              <MaterialIcon name='event-available' style={tw`text-center pb-2`} color={color_asset.tertiary.background} size={35}/>
+              <Text style={tw`text-xs`}>Meetings</Text>
+            </Pressable>
             <Pressable onPress={()=>navigation.navigate('gallery')}>
-              <FontAwesome name='photo' style={tw`text-center pb-2`} color='#C4C4C4' size={30} />
+              <FontAwesome name='photo' style={tw`text-center pb-2`} color={color_asset.tertiary.background} size={30} />
               <Text style={tw`text-xs`}>Gallery</Text>
             </Pressable>
 
             <Pressable onPress={()=>navigation.navigate('publication')}>
-              <Ionicon name='book' style={tw`text-center pb-2`} color='#C4C4C4' size={30}/>
+              <Ionicon name='book' style={tw`text-center pb-2`} color={color_asset.tertiary.background} size={30}/>
               <Text style={tw`text-xs`}>Publications</Text>
             </Pressable>
           </View>
           </View> : null}
 
-          <View style={tw`flex-row my-3 bg-green-800 mt-7 justify-between p-2 rounded-lg`}>
+          <View style={[tw`flex-row my-3 mt-7 justify-between p-2 rounded-lg`,{backgroundColor: color_asset.tertiary.background}]}>
             <Text style={tw`font-bold text-white`}>{props.textTitle}</Text>
             <Text style={tw`text-xs text-white`}>See All ({props.count})</Text>
           </View>
@@ -163,7 +181,7 @@ const Home = ({navigation, route}) => {
   return (
     <SafeAreaView style={tw`mx-3`}>
       <RequestCall open={open} />
-      <StatusBar backgroundColor={'#365C2A'} showHideTransition='slide'/>
+      <StatusBar backgroundColor={color_asset.primary.background} showHideTransition='slide'/>
       {/* <Text>home</Text> */}
       <TobBar
         body={
@@ -176,13 +194,13 @@ const Home = ({navigation, route}) => {
             <Pressable style={{flexGrow: 0.1}} onPress={()=>navigation.navigate('profile')}>
               <Image style={tw`h-8 w-8 rounded-full`} source={require('../images/user.png')}/>
             </Pressable>
-            <Ionicon name='notifications' onPress={()=>navigation.navigate('notifications')} size={28} color='#365C2A'/>
+            <Ionicon name='notifications' color={color_asset.tertiary.background} onPress={()=>navigation.navigate('notifications')} size={28}/>
           </View>
         }
       />
       <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={tw`flex-row bg-green-100 my-3 rounded-lg py-2  px-2`}> 
-        <Ionicon name='ios-search' size={25} style={tw`mr-2`} />
+      <View style={[tw`flex-row my-3 rounded-lg py-2  px-2`,{backgroundColor: color_asset.tertiary.text}]}> 
+        <Ionicon name='ios-search' size={25} color={color_asset.tertiary.background}  style={tw`mr-2`} />
         <TextInput
           placeholder='Search'
           style={tw`w-9/12`}
@@ -216,7 +234,7 @@ const Home = ({navigation, route}) => {
                  }
 
                  {/* feeds: quick links */}
-                <UpperComponent textTitle='News' show={true} count={news !== null ? news.length : 0}/>
+                <UpperComponent textTitle='News' show={true} count={news.length ? newsTotalLenght : 0}/>
               </View>
             }
             renderItem={
@@ -256,7 +274,7 @@ const Home = ({navigation, route}) => {
                  <TodoList data={todoData}/>} */}
 
                  {/* feeds: quick links */}
-                <UpperComponent textTitle='Publications' show={false} count={publications.length < 1 !== null ? publications.length : 0}/>
+                <UpperComponent textTitle='Publications' show={false} count={publications !== null ? publicationsTotalLenght : 0}/>
               </View>
             }
             renderItem={
@@ -265,7 +283,7 @@ const Home = ({navigation, route}) => {
                   <NewsCard 
                         image={item.image}
                         head={item.name}
-                        body={item.body}
+                        // body={item.body}
                         item={item}
                         navigation = {navigation}
                         isLiked={item.likes}

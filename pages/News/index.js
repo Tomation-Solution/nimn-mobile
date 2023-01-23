@@ -7,21 +7,24 @@ import Feather from 'react-native-vector-icons/Feather'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 import TobBar from '../../components/topBar'
 import { GetNews } from '../../connection/actions/user.actions'
+import { color_asset, LoadingData } from '../../components/utilitiyFunctions'
 
 const News = ({navigation}) => {
   const [news, setNews] = useState([])
+  const [loading,setLoad] = useState(true)
 
     useEffect(()=>{
       const unsubscribe = navigation.addListener('focus', () => {
         GetNews(callback)
       });
-    
-        return unsubscribe;
+      return unsubscribe;
     },[])
 
-    const callback=(res)=>{
-      setNews(res.data.data)
-    }
+  const callback=(res)=>{
+    setLoad(false)
+    setNews(res.data)
+  }
+
   return (
     <SafeAreaView style={tw`px-2`}>
       <TobBar
@@ -29,11 +32,11 @@ const News = ({navigation}) => {
           <View style={tw`flex-row justify-between px-3`}>
               <Ionicon name='ios-chevron-back' onPress={()=>navigation.goBack()} size={30}/>
               <Text style={tw`my-auto font-bold text-base`}>News</Text>
-              <Ionicon name='md-notifications' style={tw`text-purple-800`} size={30}/>
+              <Ionicon name='md-notifications' style={{color: color_asset.primary.background}} size={30}/>
           </View>
         }
         />
-      <View style={tw`flex-row mx-4 justify-between bg-purple-100 my-3 rounded-lg py-2  px-2`}> 
+      <View style={[tw`flex-row mx-4 justify-between my-3 rounded-lg py-2  px-2`,{backgroundColor: color_asset.tertiary.background}]}> 
         <Ionicon name='ios-search' size={25} style={tw`mr-2`} />
         <TextInput
           placeholder='Search by date'
@@ -42,6 +45,7 @@ const News = ({navigation}) => {
         <Feather name='sliders' style={tw`my-auto`} size={20} color='purple'/>
       </View>
       <View style={tw` flex-row mt-0 `}>
+        {news.length > 0 ?
         <FlatList
             data={news}
             keyExtractor={ (item, index) => item.id }
@@ -53,13 +57,13 @@ const News = ({navigation}) => {
                   <NewsCard 
                     image={item.image}
                     head={item.name}
-                    body={item.body}
+                    body={item.paragraphs}
                     item={item}
                     navigation={navigation}
                     to='viewNews'
                   />
                 //   </Pressable>
-                  )}/>
+                  )}/> : <LoadingData  Loading={loading} text="No News"/>}
         </View>
     </SafeAreaView>
   )

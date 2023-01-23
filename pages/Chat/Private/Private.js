@@ -25,8 +25,9 @@ const Private = ({navigation}) => {
   const errcallback= (res) => {
     console.log(res)
   }
-  const currentUser = chats.filter(i => i.member_info.find(m => m.name === 'email')['value'] === currentUserEmail)[0]
-  const filterCurrentUser = chats.filter(i => i.member_info.find(m => m.name === 'email')['value'] !== currentUserEmail)
+
+  const currentUser = chats.filter(i => i.member_info.find(m => m.name === 'Email')['value'] === currentUserEmail)[0]
+  const filterCurrentUser = chats.filter(i => i.member_info.find(m => m.name === 'Email')['value'] !== currentUserEmail)
   
   return (
     <View style={tw`bg-white`}>

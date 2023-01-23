@@ -3,6 +3,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons'
 import tw from 'tailwind-react-native-classnames'
 import RoundedButton from '../../components/button/RoundedButton'
 import TobBar from '../../components/topBar'
+import { color_asset } from '../../components/utilitiyFunctions'
 
 export const ViewMember =({navigation})=>{
     return(
@@ -17,7 +18,7 @@ export const ViewMember =({navigation})=>{
                     <Image  style={tw`h-28 w-28 rounded-full mx-auto`} resizeMode='cover' source={require('../../images/onboarding/phone.png')}/>
                 </View> 
                 <View style={tw` pt-3 border-b border-gray-500 py-1 mx-5`}>
-                    <Text style={tw`text-green-900 pb-1`}>Name:</Text>
+                    <Text style={[tw`pb-1`, {color: color_asset.primary.text}]}>Name:</Text>
                     <Text>Bolaji Johnson</Text>
                 </View>
                 <View style={tw` mt-3 border-b border-gray-500 py-1 mx-5`}>

@@ -136,7 +136,7 @@ export default function CustomDrawerList({navigation}) {
             /> 
             <View style={tw`border-b  flex-row justify-around border-gray-300 mx-4 py-1.5 mb-6 w-10/12`}>
                   
-                  <Image style={tw`h-20 w-40 mx-auto`} source={require('../../../images/Logo/ANNILogo.png')}/>
+                  <Image style={tw`h-20 w-20 mx-auto`} source={require('../../../images/Logo/NIMNIcon.png')}/>
                 
             </View>
             <ScrollView>
@@ -144,7 +144,7 @@ export default function CustomDrawerList({navigation}) {
             <Pressable onPress={()=>handleSwitch(1)} style={tw` flex-row mx-5 justify-between`}>
                 <View style={tw`flex-row`}>
                     <MaterialIcon name='groups' style={tw`mr-8 my-auto text-gray-500`} size={22} />
-                    <Text style={tw`my-auto`}>Members Zone</Text>
+                    <Text style={tw`my-auto`}>Governing Council</Text>
                 </View>
                 <Switch value={directory.member} style={tw`my-auto`} />
             </Pressable>
@@ -152,7 +152,7 @@ export default function CustomDrawerList({navigation}) {
             <Pressable onPress={()=>handleSwitch(2)} style={tw`my-1 flex-row justify-between mx-5`}>
                 <View style={tw`flex-row`}>
                     <Ionicon name='person' style={tw`mr-8 my-auto text-gray-500`} size={22} />
-                    <Text style={tw`my-auto`}>Excos Zone</Text>
+                    <Text style={tw`my-auto`}>Principal Officers</Text>
                 </View>
                 <Switch value={directory.exco} style={tw`my-auto`} />
             </Pressable>
@@ -160,7 +160,7 @@ export default function CustomDrawerList({navigation}) {
             <Pressable onPress={()=>handleSwitch(3)} style={tw`my-1 flex-row justify-between mx-5`}>
                 <View style={tw`flex-row`}>
                     <Ionicon name='people' style={tw`mr-8 my-auto text-gray-500`} size={22} />
-                    <Text style={tw`my-auto`}>Committee Zone</Text>
+                    <Text style={tw`my-auto`}>Management Chapter</Text>
                 </View>
                 <Switch value={directory.comm} style={tw`my-auto`} />
                

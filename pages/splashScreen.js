@@ -25,8 +25,7 @@ export default function SplashScreen({navigation}) {
     },[])
   return (
     <View style={tw` h-full`}>
-      <Image style={tw`h-24 m-auto`} resizeMode='contain' source={require('../images/Logo/AANI-Splash.png')}/>  
-      {/* <Text>SplashScreen</Text> */}
+      <Image style={tw`h-24 m-auto`} resizeMode='contain' source={require('../images/Logo/NIMN-Icon.png')}/>
       { !load ? 
       <View style={tw`mx-auto mb-5 `}>
        

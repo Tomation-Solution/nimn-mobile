@@ -1,22 +1,21 @@
 {
   "expo": {
-    "name": "ANNI",
-    "slug": "AANI",
-    "version": "1.0.1",
+    "name": "NIMN",
+    "slug": "nimn",
+    "version": "1.0.2",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/nimnlogo.png",
     "plugins": [
       [
         "expo-notifications",
         {
-          "icon": "./local/assets/notification-icon.png",
           "color": "#ffffff"
         }
       ]
     ],
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -27,16 +26,15 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tomation.AANI"
+      "bundleIdentifier": "com.tomation.NIMN"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.tomation.AANI",
-      "versionCode": 2,
-      "googleServicesFile": "./google-services.json"
+      "package": "com.tomation.NIMN",
+      "versionCode": 3
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -44,7 +42,7 @@
     "description": "",
     "extra": {
       "eas": {
-        "projectId": "d183e178-058d-48dc-acc3-35f21e9e4422"
+        "projectId": "4764c951-9dfb-4e1b-a545-b52f0869bbb9"
       }
     }
   }

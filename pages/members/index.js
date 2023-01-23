@@ -6,6 +6,7 @@ import Feather from 'react-native-vector-icons/Feather'
 import tw from 'tailwind-react-native-classnames'
 import { MemberCard } from '../../components/members/MemberCard'
 import { GetMembers } from '../../connection/actions/user.actions'
+import { color_asset } from '../../components/utilitiyFunctions'
 
 
 export const Members  =({navigation})=>{
@@ -21,8 +22,7 @@ export const Members  =({navigation})=>{
         {id:9,name: 'LSteve Job', dept:'Accounting', year:'1998'},
         {id:10,name: 'LSteve Job', dept:'Accounting', year:'1998'},
         {id:11,name: 'LSteve Job', dept:'Accounting', year:'1998'},
-        
-      ]
+    ]
 
     const [members, setMembers] = useState(null)
     const [refresh, setRefresh] = useState(false)
@@ -40,7 +40,7 @@ export const Members  =({navigation})=>{
     }
     return (
         <SafeAreaView>
-            <View style={tw`flex-row justify-between bg-green-100 p-3 mx-4 my-3`}>
+            <View style={[tw`flex-row justify-between p-3 mx-4 my-3`, {backgroundColor: color_asset.primary.background}]}>
                 <Ionicon name='ios-search' size={25} style={tw`mr-2`} />
                 <TextInput
                 placeholder='Search by date'

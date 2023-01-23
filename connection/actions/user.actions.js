@@ -2,10 +2,10 @@ import api from "../api";
 import localStorage from "react-native-sync-localstorage";
 import axios from "axios";
 
-const org_name = "medal";
+export const org_name = "nimn";
 export const LoginUser = async (data, callback) => {
   try {
-    const response = await api.post(`tenant/aani/tenant/auth/login/`, data);
+    const response = await api.post(`tenant/${org_name}/tenant/auth/login/`, data);
 
     if (response.status == 200) {
       // console.log(response.data)
@@ -41,12 +41,12 @@ export const LoginUser = async (data, callback) => {
 //Gets News for a Member
 export const GetNews = async (callback,query,errcallback) => {
   if(query === null || query === undefined){
-      await api.get(`tenant/aani/tenant/news/newsview/get_news/`)
+      await api.get(`tenant/${org_name}/tenant/news/newsview/get_news/`)
       .then(response => response.data)
       .then(data => callback(data))
       .catch(err => console.log(err))
   }else{
-    await api.get(`tenant/aani/tenant/news/newsview/get_news/?${query.type}=${query.value}`)
+    await api.get(`tenant/${org_name}/tenant/news/newsview/get_news/?${query.type}=${query.value}`)
     .then(response => response.data)
     .then(data => callback(data))
     .catch(err => errcallback(err.response.data.message.error))
@@ -76,13 +76,13 @@ export const LikeDisLikeNews = async (data, callback,errcallback) => {
 export const GetPublications = async (callback,query,errcallback) => {
   if(query === null || query === undefined) {
         await api.get(
-          `tenant/aani/tenant/publication/getyourpublication/`
+          `tenant/${org_name}/tenant/publication/getyourpublication/`
         ).then(response => response.data)
         .then(data => callback(data))
         .catch(err => console.log(err))
     }else{
       await api.get(
-          `tenant/aani/tenant/publication/getyourpublication/?${query.type}=${query.value}`
+          `tenant/${org_name}/tenant/publication/getyourpublication/?${query.type}=${query.value}`
         ).then(response =>  response.data)
         .then(data => callback(data))
         .catch(err => errcallback(err.response.data.message.error))
@@ -114,7 +114,7 @@ export const LikeDisLikePublication = async (data, callback) => {
 export const GetEvents = async (callback) => {
   try {
     const response = await api.get(
-      `tenant/aani/tenant/event/eventview/get_events/`
+      `tenant/${org_name}/tenant/event/eventview/get_events/`
     );
 
     if (response.status == 200) {
@@ -152,20 +152,21 @@ export const GetMyDues = async (status, callback) => {
 // /tenant/dues/AdminManageDue/due_list_and_owning_members/
 // Get Gallery
 
-export const GetGallery = async (status, callback,errcallback,type) => {
+export const GetGallery = async (status, callback,errcallback,extra) => {
+  console.log('extras',extra)
   try {
     const response = await api.get(
-      `tenant/aani/tenant/extras/galleryview/member_get_gallery/`
+      `tenant/${org_name}/tenant/extras/galleryview/member_get_gallery/${extra !== undefined ? '?'+extra : ''}`
     );
 
     if (response.status == 200) {
       callback(response.data.data);
     } else {
-      console.log(response.status);
+      // console.log(response.status);
       callback(response.status);
     }
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     errcallback(error)
     // setLoading(false)
   }
@@ -278,7 +279,7 @@ export const GetFAQ = async (status, callback) => {
 export const GetMembers = async (callback,errcalback) => {
   try {
     const response = await api.get(
-      `tenant/aani/tenant/user/memberlist-info/get_all_members/`
+      `tenant/${org_name}/tenant/user/memberlist-info/get_all_members/`
     );
 
     if (response.status == 200) {
@@ -315,7 +316,7 @@ export const GetExcos = async (status, callback) => {
 export const GetElections = async (callback,errcalback) => {
   try {
     const response = await api.get(
-      `tenant/aani/tenant/election/adminmanageballotbox/list_of_elections/`
+      `tenant/${org_name}/tenant/election/adminmanageballotbox/list_of_elections/`
     );
 
     if (response.status == 200) {
@@ -325,8 +326,7 @@ export const GetElections = async (callback,errcalback) => {
       callback(response.status);
     }
   } catch (error) {
-    errcalback(error.response)
-    console.error(error);
+    errcalback(error.response);
     // setLoading(false)
   }
 };
@@ -336,7 +336,7 @@ export const GetElections = async (callback,errcalback) => {
 export const GetProfile = async (callback) => {
   try {
     const response = await api.get(
-      `tenant/aani/tenant/user/profile/`
+      `tenant/${org_name}/tenant/user/profile/`
     );
 
     if (response.status == 200) {
@@ -371,7 +371,6 @@ export const GetContestants = async (id, callback, setLoading) => {
     console.error(error);
     setLoading(false);
 
-    // setLoading(false)
   }
 };
 
@@ -379,7 +378,7 @@ export const RequestCall = (type,data,callback,errcallback,path,formdata) => {
   const contentType = formdata === 'formdata' ? 'multipart/form-data' : null
   switch (type) {
     case 'get':
-      api.get(`/tenant/aani/tenant/${path}`)
+      api.get(`/tenant/${org_name}/tenant/${path}`)
       .then(response => response.data)
       .then(data => callback(data))
       .catch(err => errcallback(err.response))
@@ -398,19 +397,19 @@ export const RequestCall = (type,data,callback,errcallback,path,formdata) => {
           },
         }
 
-        fetch(`https://aani-backend-production.up.railway.app/tenant/aani/tenant/${path}`,request)
+        fetch(`https://rel8-backend-production.up.railway.app/tenant/${org_name}/tenant/${path}`,request)
         .then(res => res.json())
         .then(res => callback(res))
         .catch(err => 
           errcallback(err))
       }else{
-      api.post(`/tenant/aani/tenant/${path}`,data)
+      api.post(`/tenant/${org_name}/tenant/${path}`,data)
       .then(response => response.data)
       .then(data => callback(data))
       .catch(err => errcallback(err.response))}
       break;
     case 'put':
-      api.put(`/tenant/aani/tenant/${path}`)
+      api.put(`/tenant/${org_name}/tenant/${path}`)
       .then(response => response.data)
       .then(data => callback(data))
       .catch(err => errcallback(err))

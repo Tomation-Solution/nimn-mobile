@@ -8,6 +8,7 @@ import { TextInput } from "react-native-gesture-handler";
 import RoundedButton from "../../components/button/RoundedButton";
 import { ValidateMember } from "../../connection/actions/authentication/authentication";
 import ModalTemplate from "../../components/Modal";
+import { color_asset } from "../../components/utilitiyFunctions";
 
 export default function Chapters({ navigation }) {
   const [showState, setShowState] = useState(false);
@@ -19,6 +20,7 @@ export default function Chapters({ navigation }) {
 
   const callback = (response) => {
     setShowState(false);
+    // console.log(response)
     if (response !== null) {
       setMem(response);
       setShow(true);
@@ -29,11 +31,11 @@ export default function Chapters({ navigation }) {
 
   const errCallback = (err) => {
     setShowState(false);
-    alert("Email does not exist:check if email is correct.")
+    alert(err.data.message)
   };
 
   const validateMemberByEmail = () => {
-    if (email.email !== undefined) {
+    if (email.Email !== undefined) {
       setShowState(true);
       ValidateMember(email, callback, errCallback);
     }
@@ -76,7 +78,6 @@ export default function Chapters({ navigation }) {
             {arrMem.map((val,i) => (
               <View style={tw`my-1 w-11/12 border-b`} key={i}>
                 <Text style={tw`font-light`}>{val.name}</Text>
-                {console.log(val)}
                 <TextInput
                   ref={inputEl}
                   defaultValue={val.value === null || val.value === "NA" ? `Type ${val.name}` : val.value.toString()}
@@ -104,10 +105,15 @@ export default function Chapters({ navigation }) {
   return (
     <View style={tw`h-full`}>
       <ModalTemplate visible={show} body={<ModalBody arr={memObjArr} user={mem} setUser={setMem} />} />
-      <Image style={tw`h-24 m-auto`} resizeMode='contain' source={require('../../images/Logo/AANI-Splash.png')}/>  
+      <Image
+        style={tw`h-32 w-3/6 m-auto`}
+        resizeMode='contain'
+        resizeMethod='scale'
+        source={require('../../images/Logo/NIMNLogo.png')}
+      />  
       <View style={tw` m-auto w-10/12 `}>
-        <Text style={tw`text-lg text-center text-green-800 font-bold `}>
-          Welcome to Alumni Assocation of National Institute{'\n'}(Lagos Chapter)
+        <Text style={[tw`text-lg text-center font-bold`,{color: color_asset.primary.text}]}>
+          Welcome to National Institute of Marketing of Nigeria
         </Text>
 
         {/* <Pressable onPress={()=>navigation.navigate('login')} style={tw`mx-auto my-2 px-3 flex-row py-2 bg-green-800 rounded-lg`}>
@@ -125,7 +131,7 @@ export default function Chapters({ navigation }) {
               <Text>Email Address</Text>
               <TextInput
                 placeholder="email Address"
-                onChangeText={(text) => setEmail({ ...email, email: text })}
+                onChangeText={(text) => setEmail({ ...email, Email: text })}
               />
             </View>
           </View>
@@ -141,9 +147,9 @@ export default function Chapters({ navigation }) {
         <View style={tw`flex-row mx-auto py-2`}>
             <Text>Already have an Account?</Text>
             <TouchableOpacity onPress={() => navigation.navigate("login")}>
-              <Text style={tw`text-green-800 font-bold`}> Login</Text>
+              <Text style={[tw`font-bold`, {color: color_asset.primary.text}]}> Login</Text>
             </TouchableOpacity>
-          </View>
+        </View>
 
         {/* <Pressable onPress={()=>setShowState(!showState)} style={tw`bg-gray-200 rounded-lg flex-row justify-between px-3 py-2.5 mb-3`}>
                 <Text style={tw`text-gray-700`}>Chapter</Text>
